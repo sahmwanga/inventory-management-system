@@ -1,27 +1,31 @@
-import React from "react";
+import React from 'react';
 import {
   Container,
   Card,
   Typography,
   Grid,
   Button,
-  CardContent
-} from "@material-ui/core";
-import { GlobalProvider } from "./context/GlobalState";
-import Stock from "./components/Stock";
-import Reports from "./components/Reports";
-import Transactions from "./components/Transactions";
-import ProductMaster from "./components/ProductMaster";
+  CardContent,
+  Box,
+} from '@material-ui/core';
+import { GlobalProvider } from './context/GlobalState';
+import Stock from './components/Stock';
+import Reports from './components/Reports';
+import Transactions from './components/Transactions';
+import ProductMaster from './components/ProductMaster';
+import Header from './components/Header';
 
 export default function App() {
   return (
     <GlobalProvider>
+      <Header />
+      <Box my={2} />
       <Container>
         <Grid container spacing={2} alignItems="center">
-          <Grid item xs={12} md={8}>
+          <Grid item xs={12} md={10}>
             <Filters />
           </Grid>
-          <Grid item xs={12} md={4}>
+          <Grid item xs={12} md={2}>
             <ProductMaster />
           </Grid>
         </Grid>
@@ -40,7 +44,7 @@ export default function App() {
 }
 
 const Filters = () => {
-  console.log("Filters");
+  console.log('Filters');
   return (
     <Card>
       <CardContent>
@@ -55,7 +59,7 @@ const Filters = () => {
             <input type="date" />
           </Grid>
           <Grid item>
-            <Button variant="outlined" color="primary">
+            <Button variant="contained" color="primary">
               Refresh
             </Button>
           </Grid>

@@ -6,13 +6,22 @@ import {
   Dialog,
   DialogTitle,
   DialogContent,
+  Card,
+  TableContainer,
+  Paper,
+  Table,
+  TableHead,
+  TableRow,
+  TableCell,
+  TableBody,
+  Box,
 } from '@material-ui/core';
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
 import { GlobalContext } from '../context/GlobalState';
 
 const ProductMaster = () => {
-  const { addProduct } = useContext(GlobalContext);
+  const { addProduct, stocks } = useContext(GlobalContext);
 
   const [open, setOpen] = React.useState(false);
 
@@ -42,9 +51,10 @@ const ProductMaster = () => {
 
   return (
     <>
-      <Button variant="outlined" color="primary" onClick={handleClickOpen}>
+      <Button variant="contained" color="primary" onClick={handleClickOpen}>
         Product Master
       </Button>
+
       <Dialog
         open={open}
         onClose={handleClose}
@@ -110,6 +120,34 @@ const ProductMaster = () => {
               </Form>
             )}
           </Formik>
+          <Box my={2}>
+            <TableContainer component={Paper}>
+              <Table className="" size="small" aria-label="simple table">
+                <TableHead>
+                  <TableRow>
+                    <TableCell>ID</TableCell>
+                    <TableCell align="right">Product Name</TableCell>
+                    <TableCell align="right">Sales Price</TableCell>
+                    <TableCell align="right">Purchase Price</TableCell>
+                    <TableCell align="right">Available Stock</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {stocks.map((row) => (
+                    <TableRow key={row.name}>
+                      <TableCell component="th" scope="row">
+                        {row.id}
+                      </TableCell>
+                      <TableCell align="right">{row.productName}</TableCell>
+                      <TableCell align="right">{row.salesPrice}</TableCell>
+                      <TableCell align="right">{row.purchasePrice}</TableCell>
+                      <TableCell align="right">{row.availStock}</TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </Box>
         </DialogContent>
       </Dialog>
     </>
