@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
+import App from './components/app/App';
 import reportWebVitals from './reportWebVitals';
 import { createMuiTheme, CssBaseline, ThemeProvider } from '@material-ui/core';
 

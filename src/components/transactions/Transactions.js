@@ -16,7 +16,7 @@ import {
   Box,
 } from '@material-ui/core';
 import { useContext, useEffect, useState } from 'react';
-import { GlobalContext } from '../context/GlobalState';
+import { GlobalContext } from '../../context/GlobalState';
 import TransactionForm from './TransactionForm';
 
 const Transactions = () => {
@@ -51,6 +51,7 @@ const Transactions = () => {
                 <TableCell>quantiry</TableCell>
                 <TableCell>price</TableCell>
                 <TableCell>amount</TableCell>
+                <TableCell></TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -66,12 +67,14 @@ const Transactions = () => {
                         : txn.purchasePrice}
                     </TableCell>
                     <TableCell>{txn.amount}</TableCell>
-                    <button onClick={() => console.log('edit transactions')}>
-                      E
-                    </button>
-                    <button onClick={() => console.log('delete transaction')}>
-                      D
-                    </button>
+                    <TableCell>
+                      <button onClick={() => console.log('edit transactions')}>
+                        E
+                      </button>
+                      <button onClick={() => console.log('delete transaction')}>
+                        D
+                      </button>
+                    </TableCell>
                   </TableRow>
                 ))}
             </TableBody>

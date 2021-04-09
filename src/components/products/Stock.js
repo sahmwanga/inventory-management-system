@@ -11,7 +11,7 @@ import {
   Box,
 } from '@material-ui/core';
 import { useContext } from 'react';
-import { GlobalContext } from '../context/GlobalState';
+import { GlobalContext } from '../../context/GlobalState';
 
 const Stock = () => {
   const { stocks, editProduct, addProduct } = useContext(GlobalContext);

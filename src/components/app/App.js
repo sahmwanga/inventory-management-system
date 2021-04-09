@@ -8,12 +8,12 @@ import {
   CardContent,
   Box,
 } from '@material-ui/core';
-import { GlobalProvider } from './context/GlobalState';
-import Stock from './components/Stock';
-import Reports from './components/Reports';
-import Transactions from './components/Transactions';
-import ProductMaster from './components/ProductMaster';
-import Header from './components/Header';
+import { GlobalProvider } from '../../context/GlobalState';
+import Stock from '../products/Stock';
+import Reports from '../reports/Reports';
+import Transactions from '../transactions/Transactions';
+import ProductMaster from '../products/ProductMaster';
+import Header from '../Header';
 
 export default function App() {
   return (

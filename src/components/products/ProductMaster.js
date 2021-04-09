@@ -18,7 +18,7 @@ import {
 } from '@material-ui/core';
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
-import { GlobalContext } from '../context/GlobalState';
+import { GlobalContext } from '../../context/GlobalState';
 
 const ProductMaster = () => {
   const { addProduct, stocks } = useContext(GlobalContext);
