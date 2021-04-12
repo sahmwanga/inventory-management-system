@@ -13,18 +13,18 @@ import {
   FormControl,
   FormLabel,
   RadioGroup,
-  Box
-} from "@material-ui/core";
-import { useContext, useEffect, useState } from "react";
-import { GlobalContext } from "../context/GlobalState";
-import TransactionForm from "./TransactionForm";
+  Box,
+} from '@material-ui/core';
+import { useContext, useEffect, useState } from 'react';
+import { GlobalContext } from '../../context/GlobalState';
+import TransactionForm from './TransactionForm';
 
 const Transactions = () => {
   const { transactions, filterTransactions } = useContext(GlobalContext);
   const [reload, setReload] = useState(false);
 
   useEffect(() => {
-    console.log("refresh page");
+    console.log('refresh page');
   }, [reload]);
 
   return (
@@ -51,6 +51,7 @@ const Transactions = () => {
                 <TableCell>quantiry</TableCell>
                 <TableCell>price</TableCell>
                 <TableCell>amount</TableCell>
+                <TableCell></TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -61,17 +62,19 @@ const Transactions = () => {
                     <TableCell>{txn.type}</TableCell>
                     <TableCell>{txn.quantity}</TableCell>
                     <TableCell>
-                      {txn.type === "sales"
+                      {txn.type === 'sales'
                         ? txn.salesPrice
                         : txn.purchasePrice}
                     </TableCell>
                     <TableCell>{txn.amount}</TableCell>
-                    <button onClick={() => console.log("edit transactions")}>
-                      E
-                    </button>
-                    <button onClick={() => console.log("delete transaction")}>
-                      D
-                    </button>
+                    <TableCell>
+                      <button onClick={() => console.log('edit transactions')}>
+                        E
+                      </button>
+                      <button onClick={() => console.log('delete transaction')}>
+                        D
+                      </button>
+                    </TableCell>
                   </TableRow>
                 ))}
             </TableBody>
@@ -83,7 +86,7 @@ const Transactions = () => {
 };
 
 const TransactionFilter = ({ filterTransactions, setReload }) => {
-  const [value, setValue] = useState("all");
+  const [value, setValue] = useState('all');
   const handleStateChange = (event) => {
     setValue(event.target.value);
     // filterTransactions(value);
@@ -92,7 +95,9 @@ const TransactionFilter = ({ filterTransactions, setReload }) => {
 
   return (
     <FormControl component="fieldset">
-      <FormLabel component="legend">Show Transactions</FormLabel>
+      <FormLabel component="legend" color="secondary">
+        Show Transactions
+      </FormLabel>
       <RadioGroup
         aria-label="transactions"
         name="transactions"

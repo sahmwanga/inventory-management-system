@@ -1,6 +1,6 @@
-import { Card, Typography, Grid, CardContent } from "@material-ui/core";
-import { useContext, useEffect } from "react";
-import { GlobalContext } from "../context/GlobalState";
+import { Card, Typography, Grid, CardContent } from '@material-ui/core';
+import { useContext, useEffect } from 'react';
+import { GlobalContext } from '../../context/GlobalState';
 
 const Reports = () => {
   const { reports, getReports } = useContext(GlobalContext);
@@ -10,7 +10,7 @@ const Reports = () => {
     console.log({ reportsData });
   }, []);
 
-  console.log("reports");
+  console.log('reports');
   return (
     <div>
       <h3>Reports</h3>
