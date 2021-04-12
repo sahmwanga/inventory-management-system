@@ -1,13 +1,5 @@
 import React, { useContext } from 'react';
-import {
-  Button,
-  FormControl,
-  Grid,
-  InputLabel,
-  MenuItem,
-  Select,
-  TextField,
-} from '@material-ui/core';
+import { Button, Grid, TextField } from '@material-ui/core';
 import {
   KeyboardDatePicker,
   MuiPickersUtilsProvider,
@@ -73,7 +65,10 @@ const TransactionForm = () => {
     key: item.productName,
     value: item.id,
   }));
-  const transactionTypes = ['sales', 'purchases'];
+  const transactionTypes = [
+    { key: 'sales', values: 'sales' },
+    { key: 'purchases', value: 'purchases' },
+  ];
 
   const classes = useStyles();
 
@@ -113,7 +108,7 @@ const TransactionForm = () => {
                   control="select"
                   fullWidth
                   name="product"
-                  label="product"
+                  label="Product"
                   options={stockOptions}
                   onChange={handleChange}
                   touched={touched}
@@ -121,36 +116,23 @@ const TransactionForm = () => {
                 />
               </Grid>
               <Grid item xs={12} sm={6} md={4}>
-                <FormControl className={classes.formControl}>
-                  <InputLabel id="type">Transaction Types</InputLabel>
-                  <Select
-                    labelId="type"
-                    id="type"
-                    name="type"
-                    onChange={handleChange}
-                    defaultValue=""
-                    error={touched.type && Boolean(errors.type)}
-                    helperText={touched.type && errors.type}
-                  >
-                    {transactionTypes.map((value) => (
-                      <MenuItem value={value}>{value}</MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
+                <FormikControl
+                  control="select"
+                  fullWidth
+                  name="type"
+                  label="Transaction Types"
+                  options={transactionTypes}
+                  onChange={handleChange}
+                  touched={touched}
+                  errors={errors}
+                />
               </Grid>
               <Grid item xs={12} sm={6} md={4}>
-                <KeyboardDatePicker
-                  disableToolbar
-                  variant="inline"
-                  format="MM/dd/yyyy"
-                  margin="normal"
-                  id="date"
+                <FormikControl
+                  control="date"
                   label="Date"
                   name="date"
                   onChange={handleChange}
-                  KeyboardButtonProps={{
-                    'aria-label': 'change date',
-                  }}
                 />
               </Grid>
               <Grid item xs={12} sm={6} md={4}>
