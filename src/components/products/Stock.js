@@ -14,7 +14,15 @@ import { useContext } from 'react';
 import { GlobalContext } from '../../context/GlobalState';
 
 const Stock = () => {
-  const { stocks, editProduct, addProduct } = useContext(GlobalContext);
+  const {
+    stocks,
+    editProduct,
+    addProduct,
+    productState,
+    productDispatch,
+  } = useContext(GlobalContext);
+
+  console.log({ productState });
   return (
     <Card>
       <CardContent>

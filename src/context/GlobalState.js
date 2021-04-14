@@ -1,4 +1,7 @@
-import React, { createContext, useReducer } from "react";
+import React, { createContext, useReducer } from 'react';
+import products from './reducers/products';
+import productInitialState from './initialStates/productInitialState';
+
 const initialState = {
   reports: [],
   stocks: [
@@ -21,16 +24,16 @@ const initialState = {
     //   amount: "120",
     //   date: new Date()
     // }
-  ]
+  ],
 };
 
-export const EDIT_PRODUCT = "edit_product";
-export const GET_REPORTS = "get_report";
-export const ADD_PRODUCT = "add_product";
-export const FILTER_TRANSACTIONS = "filter_transactions";
-export const GET_TRANSACTIONS = "get_transactions";
-export const ADD_TRANSACTION = "add_transaction";
-export const UPDATE_STOCKS = "UPDATE_STOCKS";
+export const EDIT_PRODUCT = 'edit_product';
+export const GET_REPORTS = 'get_report';
+export const ADD_PRODUCT = 'add_product';
+export const FILTER_TRANSACTIONS = 'filter_transactions';
+export const GET_TRANSACTIONS = 'get_transactions';
+export const ADD_TRANSACTION = 'add_transaction';
+export const UPDATE_STOCKS = 'UPDATE_STOCKS';
 
 const getInventoryQty = (stocks) =>
   stocks.reduce((index, value) => index + value.availStock, 0);
@@ -42,13 +45,13 @@ const getInventoryTotalAmount = (stocks) =>
 
 const getTotalSales = (transactions) =>
   transactions
-    .filter((value) => value.type === "sales")
+    .filter((value) => value.type === 'sales')
     .map((value) => value.salesPrice * value.quantity)
     .reduce((index, value) => index + value, 0);
 
 const getTotalPurchase = (transactions) =>
   transactions
-    .filter((value) => value.type === "purchases")
+    .filter((value) => value.type === 'purchases')
     .map((value) => value.purchasePrice * value.quantity)
     .reduce((index, value) => index + value, 0);
 // const updateStock = ({ type, quantity, product, stocks }) => {
@@ -63,7 +66,7 @@ const appReducer = (state, action) => {
     case ADD_PRODUCT:
       const newItem = {
         ...state,
-        stocks: [...state.stocks, action.payload]
+        stocks: [...state.stocks, action.payload],
       };
       return newItem;
     case UPDATE_STOCKS: {
@@ -73,22 +76,22 @@ const appReducer = (state, action) => {
       );
       const existingStock = [...state.stocks];
 
-      if (type === "sales") {
+      if (type === 'sales') {
         existingStock[elementsIndex] = {
           ...existingStock[elementsIndex],
-          availStock: existingStock[elementsIndex]["availStock"] - 1 * quantity
+          availStock: existingStock[elementsIndex]['availStock'] - 1 * quantity,
         };
       }
-      if (type === "purchases") {
+      if (type === 'purchases') {
         existingStock[elementsIndex] = {
           ...existingStock[elementsIndex],
-          availStock: existingStock[elementsIndex]["availStock"] + 1 * quantity
+          availStock: existingStock[elementsIndex]['availStock'] + 1 * quantity,
         };
       }
 
       const _stocks = {
         ...state,
-        stocks: existingStock
+        stocks: existingStock,
       };
       return _stocks;
     }
@@ -100,16 +103,16 @@ const appReducer = (state, action) => {
         productName,
         purchasePrice,
         salesPrice,
-        availStock
+        availStock,
       } = stocks.filter((value) => value.id === product)[0];
 
       //TODO: VALIDATE AVAILABLE STOCK IF EXIST
 
-      if (type === "sales") {
+      if (type === 'sales') {
         console.log({ salesPrice, quantity });
         amount = 1 * salesPrice * 1 * quantity;
       }
-      if (type === "purchases") {
+      if (type === 'purchases') {
         console.log({ purchasePrice, quantity });
         amount = 1 * purchasePrice * 1 * quantity;
       }
@@ -127,9 +130,9 @@ const appReducer = (state, action) => {
             quantity,
             salesPrice,
             amount,
-            date
-          }
-        ]
+            date,
+          },
+        ],
       };
       return txns;
     case GET_REPORTS:
@@ -142,27 +145,27 @@ const appReducer = (state, action) => {
       const totalPurchase = getTotalPurchase(state.transactions);
 
       const arrDt = [
-        { value: totalPurchase, key: "Purchase" },
-        { value: totalSales, key: "Sale" },
-        { value: totalSales - totalPurchase, key: "Profit" },
-        { value: inventoryQty, key: "Intentory Qnty" },
-        { value: inventoryAmount, key: "Intentory Amount" }
+        { value: totalPurchase, key: 'Purchase' },
+        { value: totalSales, key: 'Sale' },
+        { value: totalSales - totalPurchase, key: 'Profit' },
+        { value: inventoryQty, key: 'Intentory Qnty' },
+        { value: inventoryAmount, key: 'Intentory Amount' },
       ];
 
       const data = [...arrDt];
       return { ...state, reports: data };
     case GET_TRANSACTIONS:
       console.log(action.payload);
-      if (action.payload === "sales") {
+      if (action.payload === 'sales') {
         const sales = state.transactions.filter(
-          (value) => value.type === "sales" && value
+          (value) => value.type === 'sales' && value
         );
         // console.log({ ...state, transactions: sales });
         return { ...state, transactions: sales };
       }
-      if (action.payload === "purchases") {
+      if (action.payload === 'purchases') {
         const purchases = state.transactions.filter(
-          (value) => value.type === "purchases" && value
+          (value) => value.type === 'purchases' && value
         );
         // console.log({ ...state, transactions: purchases });
         return { ...state, transactions: purchases };
@@ -178,13 +181,17 @@ export const GlobalContext = createContext(initialState);
 
 export const GlobalProvider = ({ children }) => {
   const [state, dispatch] = useReducer(appReducer, initialState);
+  const [productState, productDispatch] = useReducer(
+    products,
+    productInitialState
+  );
 
   const editProduct = (id) => {
     dispatch({ type: EDIT_PRODUCT, id });
   };
 
   const getReports = () => {
-    console.log("get reports");
+    console.log('get reports');
     dispatch({ type: GET_REPORTS });
   };
 
@@ -193,27 +200,27 @@ export const GlobalProvider = ({ children }) => {
   };
 
   const addProduct = (payload) => {
-    console.log("add products");
+    console.log('add products');
     dispatch({
       type: ADD_PRODUCT,
       payload: {
         id: Math.floor(Math.random() * 100),
         ...payload,
-        availStock: 0
-      }
+        availStock: 0,
+      },
     });
     dispatch({ type: GET_REPORTS });
   };
 
   const addTransaction = (values) => {
-    console.log("add transaction");
+    console.log('add transaction');
     dispatch({
       type: ADD_TRANSACTION,
-      payload: values
+      payload: values,
     });
     dispatch({
       type: UPDATE_STOCKS,
-      payload: values
+      payload: values,
     });
     dispatch({ type: GET_REPORTS });
   };
@@ -233,7 +240,9 @@ export const GlobalProvider = ({ children }) => {
         reports: state.reports,
         editProduct: editProduct,
         getReports: getReports,
-        addProduct: addProduct
+        addProduct: addProduct,
+        productState,
+        productDispatch,
       }}
     >
       {children}

@@ -15,13 +15,61 @@ import {
   TableCell,
   TableBody,
   Box,
+  CircularProgress,
 } from '@material-ui/core';
+import clsx from 'clsx';
+import { green } from '@material-ui/core/colors';
+import { makeStyles } from '@material-ui/core/styles';
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
 import { GlobalContext } from '../../context/GlobalState';
+import { addProducts } from '../../context/actions/products';
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    display: 'flex',
+    alignItems: 'center',
+  },
+  wrapper: {
+    margin: theme.spacing(1),
+    position: 'relative',
+  },
+  buttonSuccess: {
+    backgroundColor: green[500],
+    '&:hover': {
+      backgroundColor: green[700],
+    },
+  },
+  fabProgress: {
+    color: green[500],
+    position: 'absolute',
+    top: -6,
+    left: -6,
+    zIndex: 1,
+  },
+  buttonProgress: {
+    color: green[500],
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    marginTop: -12,
+    marginLeft: -12,
+  },
+}));
 
 const ProductMaster = () => {
-  const { addProduct, stocks } = useContext(GlobalContext);
+  const {
+    addProduct,
+    stocks,
+    productDispatch,
+    productState: {
+      products: { loading, error, data },
+    },
+  } = useContext(GlobalContext);
+
+  const classes = useStyles();
+
+  console.log({ loading, data, error });
 
   const [open, setOpen] = React.useState(false);
 
@@ -46,8 +94,13 @@ const ProductMaster = () => {
   };
 
   const onSubmit = (values) => {
-    addProduct(values);
+    // addProduct(values);
+    addProducts(values)(productDispatch);
   };
+
+  const buttonClassname = clsx({
+    [classes.buttonSuccess]: loading,
+  });
 
   return (
     <>
@@ -112,9 +165,17 @@ const ProductMaster = () => {
                       variant="contained"
                       fullWidth
                       type="submit"
+                      className={buttonClassname}
+                      disabled={loading}
                     >
                       Submit
                     </Button>
+                    {loading && (
+                      <CircularProgress
+                        size={24}
+                        className={classes.buttonProgress}
+                      />
+                    )}
                   </Grid>
                 </Grid>
               </Form>
