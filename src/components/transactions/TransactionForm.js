@@ -4,7 +4,6 @@ import {
   KeyboardDatePicker,
   MuiPickersUtilsProvider,
 } from '@material-ui/pickers';
-import DateFnsUtils from '@date-io/date-fns';
 import { Formik, Form, useFormikContext, useField, Field } from 'formik';
 import * as Yup from 'yup';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
@@ -93,78 +92,76 @@ const TransactionForm = () => {
   };
 
   return (
-    <MuiPickersUtilsProvider utils={DateFnsUtils}>
-      <Formik
-        initialValues={initialValues}
-        validationSchema={validationSchema}
-        onSubmit={onSubmit}
-        enableReinitialize={true}
-      >
-        {({ touched, errors, handleChange, isSubmitting, values }) => (
-          <Form className="">
-            <Grid container spacing="2">
-              <Grid item xs={12} sm={6} md={4}>
-                <FormikControl
-                  control="select"
-                  fullWidth
-                  name="product"
-                  label="Product"
-                  options={stockOptions}
-                  onChange={handleChange}
-                  touched={touched}
-                  errors={errors}
-                />
-              </Grid>
-              <Grid item xs={12} sm={6} md={4}>
-                <FormikControl
-                  control="select"
-                  fullWidth
-                  name="type"
-                  label="Transaction Types"
-                  options={transactionTypes}
-                  onChange={handleChange}
-                  touched={touched}
-                  errors={errors}
-                />
-              </Grid>
-              <Grid item xs={12} sm={6} md={4}>
-                <FormikControl
-                  control="date"
-                  label="Date"
-                  name="date"
-                  onChange={handleChange}
-                />
-              </Grid>
-              <Grid item xs={12} sm={6} md={4}>
-                <FormikControl
-                  control="input"
-                  fullWidth
-                  name="quantity"
-                  label="Quantity"
-                  onChange={handleChange}
-                  touched={touched}
-                  errors={errors}
-                />
-              </Grid>
-
-              <Grid item xs={12} sm={6} md={4}>
-                <MyField name="rate" disabled />
-              </Grid>
-              <Grid item xs={12} sm={6} md={4}>
-                <Button
-                  color="primary"
-                  variant="contained"
-                  fullWidth
-                  type="submit"
-                >
-                  Submit
-                </Button>
-              </Grid>
+    <Formik
+      initialValues={initialValues}
+      validationSchema={validationSchema}
+      onSubmit={onSubmit}
+      enableReinitialize={true}
+    >
+      {({ touched, errors, handleChange, isSubmitting, values }) => (
+        <Form className="">
+          <Grid container spacing="2">
+            <Grid item xs={12} sm={6} md={4}>
+              <FormikControl
+                control="select"
+                fullWidth
+                name="product"
+                label="Product"
+                options={stockOptions}
+                onChange={handleChange}
+                touched={touched}
+                errors={errors}
+              />
             </Grid>
-          </Form>
-        )}
-      </Formik>
-    </MuiPickersUtilsProvider>
+            <Grid item xs={12} sm={6} md={4}>
+              <FormikControl
+                control="select"
+                fullWidth
+                name="type"
+                label="Transaction Types"
+                options={transactionTypes}
+                onChange={handleChange}
+                touched={touched}
+                errors={errors}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6} md={4}>
+              <FormikControl
+                control="date"
+                label="Date"
+                name="date"
+                onChange={handleChange}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6} md={4}>
+              <FormikControl
+                control="input"
+                fullWidth
+                name="quantity"
+                label="Quantity"
+                onChange={handleChange}
+                touched={touched}
+                errors={errors}
+              />
+            </Grid>
+
+            <Grid item xs={12} sm={6} md={4}>
+              <MyField name="rate" disabled />
+            </Grid>
+            <Grid item xs={12} sm={6} md={4}>
+              <Button
+                color="primary"
+                variant="contained"
+                fullWidth
+                type="submit"
+              >
+                Submit
+              </Button>
+            </Grid>
+          </Grid>
+        </Form>
+      )}
+    </Formik>
   );
 };
 

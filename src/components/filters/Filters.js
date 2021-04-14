@@ -12,14 +12,18 @@ function Filters() {
           <Grid item>
             <FormikControl
               control="date"
-              label="Date"
+              label="Start Date"
               name="date"
               onChange={() => {}}
             />
           </Grid>
           <Grid item>
-            <label>End Date</label>
-            <input type="date" />
+            <FormikControl
+              control="date"
+              label="End Date"
+              name="date"
+              onChange={() => {}}
+            />
           </Grid>
           <Grid item>
             <Button variant="contained" color="primary">
