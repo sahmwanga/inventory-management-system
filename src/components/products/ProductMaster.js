@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import {
   Button,
   Grid,
@@ -23,7 +23,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
 import { GlobalContext } from '../../context/GlobalState';
-import { addProducts } from '../../context/actions/products';
+import { addProducts, getProducts } from '../../context/actions/products';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -58,16 +58,20 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const ProductMaster = () => {
+  const classes = useStyles();
   const {
     addProduct,
     stocks,
     productDispatch,
+    // getProducts,
     productState: {
       products: { loading, error, data },
     },
   } = useContext(GlobalContext);
 
-  const classes = useStyles();
+  useEffect(() => {
+    getProducts()(productDispatch);
+  }, []);
 
   console.log({ loading, data, error });
 
@@ -194,17 +198,18 @@ const ProductMaster = () => {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {stocks.map((row) => (
-                    <TableRow key={row.name}>
-                      <TableCell component="th" scope="row">
-                        {row.id}
-                      </TableCell>
-                      <TableCell align="right">{row.productName}</TableCell>
-                      <TableCell align="right">{row.salesPrice}</TableCell>
-                      <TableCell align="right">{row.purchasePrice}</TableCell>
-                      <TableCell align="right">{row.availStock}</TableCell>
-                    </TableRow>
-                  ))}
+                  {data &&
+                    data.map((row) => (
+                      <TableRow key={row.name}>
+                        <TableCell component="th" scope="row">
+                          {row.id}
+                        </TableCell>
+                        <TableCell align="right">{row.productName}</TableCell>
+                        <TableCell align="right">{row.salesPrice}</TableCell>
+                        <TableCell align="right">{row.purchasePrice}</TableCell>
+                        <TableCell align="right">{row.availStock}</TableCell>
+                      </TableRow>
+                    ))}
                 </TableBody>
               </Table>
             </TableContainer>

@@ -10,7 +10,8 @@ import {
   TableBody,
   Box,
 } from '@material-ui/core';
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
+import { getProducts } from '../../context/actions/products';
 import { GlobalContext } from '../../context/GlobalState';
 
 const Stock = () => {
@@ -18,11 +19,19 @@ const Stock = () => {
     stocks,
     editProduct,
     addProduct,
-    productState,
+    productState: {
+      products: { data },
+      loading,
+      error,
+    },
     productDispatch,
   } = useContext(GlobalContext);
 
-  console.log({ productState });
+  useEffect(() => {
+    getProducts()(productDispatch);
+  }, []);
+
+  console.log({ 'product===': data });
   return (
     <Card>
       <CardContent>
@@ -39,8 +48,8 @@ const Stock = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {stocks &&
-                stocks.map((stock) => (
+              {data &&
+                data.map((stock) => (
                   <TableRow key={stock.id}>
                     <TableCell component="TableCell" scope="row">
                       {stock.productName}
