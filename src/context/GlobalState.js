@@ -1,6 +1,7 @@
 import React, { createContext, useReducer } from 'react';
 import products from './reducers/products';
 import productInitialState from './initialStates/productInitialState';
+import transactionInitialState from './initialStates/transactionsInitialState';
 
 const initialState = {
   reports: [],
@@ -185,6 +186,10 @@ export const GlobalProvider = ({ children }) => {
     products,
     productInitialState
   );
+  const [transactionState, transactionDispatch] = useReducer(
+    transactions,
+    transactionInitialState
+  );
 
   const editProduct = (id) => {
     dispatch({ type: EDIT_PRODUCT, id });
@@ -243,6 +248,8 @@ export const GlobalProvider = ({ children }) => {
         addProduct: addProduct,
         productState,
         productDispatch,
+        transactionState,
+        transactionDispatch,
       }}
     >
       {children}

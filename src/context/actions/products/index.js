@@ -12,16 +12,8 @@ export const getProducts = () => async (dispatch) => {
     // let products = [];
     db.collection('products').onSnapshot((data) => {
       const products = data.docs.map((doc) => ({ ...doc.data() }));
-      console.log({ products });
-      // products.push();
       dispatch({ type: PRODUCTS_SUCCESS, payload: products });
     });
-    // const data = await response.get();
-
-    // let products = [];
-    // data.forEach((snap) => {
-    //   products.push(snap.val());
-    // });
   } catch (error) {
     dispatch({ type: PRODUCTS_ERROR, payload: error });
   }

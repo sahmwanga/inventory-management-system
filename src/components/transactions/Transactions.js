@@ -16,15 +16,21 @@ import {
   Box,
 } from '@material-ui/core';
 import { useContext, useEffect, useState } from 'react';
-import { GlobalContext } from '../../context/GlobalState';
+import { GlobalContext, transactionDispatch } from '../../context/GlobalState';
 import TransactionForm from './TransactionForm';
 
+import { getTransactions } from '../../context/actions/transactions';
+
 const Transactions = () => {
-  const { transactions, filterTransactions } = useContext(GlobalContext);
+  const { transactions, filterTransactions, transactionState } = useContext(
+    GlobalContext
+  );
   const [reload, setReload] = useState(false);
 
+  console.log({ transactionState });
+
   useEffect(() => {
-    console.log('refresh page');
+    getTransactions()(transactionDispatch);
   }, [reload]);
 
   return (
