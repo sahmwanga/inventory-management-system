@@ -20,11 +20,12 @@ export const getTransactions = () => async (dispatch) => {
 
 export const addTransactions = (values) => (dispatch) => {
   dispatch({ type: TRANSACTIONS_LOADING });
+  console.log('add-transasctions', values);
   try {
     db.collection('transactions')
       .add({ ...values })
       .onSnapshot((data) => {
-        dispatch({ type: TRANSACTIONS_SUCCESS, payload: values });
+        dispatch({ type: TRANSACTIONS_SUCCESS, payload: data });
       });
   } catch (error) {
     dispatch({ type: TRANSACTIONS_ERROR, payload: error });

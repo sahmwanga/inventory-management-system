@@ -25,16 +25,19 @@ const Transactions = () => {
   const {
     transactions,
     filterTransactions,
-    transactionState: { loading, data, error },
+    transactionState: {
+      transactions: { data: txnData },
+      loading: txnLoading,
+      error: txnError,
+    },
     transactionDispatch,
   } = useContext(GlobalContext);
-  const [reload, setReload] = useState(false);
 
-  console.log({ transactionState: data });
+  console.log({ transactionState: txnData });
 
   useEffect(() => {
     getTransactions()(transactionDispatch);
-  }, [reload]);
+  }, []);
 
   return (
     <Card>
@@ -48,7 +51,7 @@ const Transactions = () => {
         <Box mt={4}>
           <TransactionFilter
             filterTransactions={filterTransactions}
-            setReload={setReload}
+            setReload={() => {}}
           />
         </Box>
         <TableContainer>
@@ -64,10 +67,10 @@ const Transactions = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {data &&
-                data.map((txn) => (
+              {txnData &&
+                txnData.map((txn) => (
                   <TableRow key={txn.id}>
-                    <TableCell>{txn.productName}</TableCell>
+                    <TableCell>{txn.product}</TableCell>
                     <TableCell>{txn.type}</TableCell>
                     <TableCell>{txn.quantity}</TableCell>
                     <TableCell>

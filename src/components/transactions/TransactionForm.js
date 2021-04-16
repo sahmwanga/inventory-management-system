@@ -11,6 +11,10 @@ import { GlobalContext } from '../../context/GlobalState';
 import FormikControl from '../customs/form/FormikControl';
 import _ from 'lodash';
 import { getProducts } from '../../context/actions/products';
+import {
+  addTransactions,
+  getTransactions,
+} from '../../context/actions/transactions';
 
 const useStyles = makeStyles((theme) =>
   createStyles({
@@ -34,6 +38,7 @@ const MyField = (props) => {
     values: { quantity, product },
     setFieldValue,
   } = useFormikContext();
+
   const [field, meta] = useField(props);
 
   React.useEffect(() => {
@@ -67,18 +72,19 @@ const TransactionForm = () => {
       loading,
       error,
     },
-    addTransaction,
     productDispatch,
+    transactionDispatch,
   } = useContext(GlobalContext);
 
   useEffect(() => {
     getProducts()(productDispatch);
+    getTransactions()(transactionDispatch);
   }, []);
 
   const stockOptions = _.isArray(data)
     ? data.map((item) => ({
         key: item.productName,
-        value: item.id,
+        value: item.productName,
       }))
     : [];
   const transactionTypes = [
@@ -105,7 +111,8 @@ const TransactionForm = () => {
   };
 
   const onSubmit = (values) => {
-    addTransaction(values);
+    console.log({ values });
+    addTransactions(values)(transactionDispatch);
   };
 
   return (
