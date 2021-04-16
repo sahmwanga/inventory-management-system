@@ -22,7 +22,7 @@ export default function App() {
             <ProductMaster />
           </Grid>
         </Grid>
-        <Reports />
+        {/*<Reports />*/}
         <Grid container spacing={4}>
           <Grid item sm={12} md={4}>
             <Stock />

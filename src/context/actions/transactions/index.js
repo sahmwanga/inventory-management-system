@@ -1,7 +1,7 @@
 import {
   TRANSACTIONS_LOADING,
   TRANSACTIONS_ERROR,
-  TRANSACTION_SUCCESS,
+  TRANSACTIONS_SUCCESS,
 } from '../../../constants/actionTypes';
 
 import { db } from '../../../firebase/Firebase';
@@ -11,7 +11,7 @@ export const getTransactions = () => async (dispatch) => {
   try {
     db.collection('transactions').onSnapshot((data) => {
       const transactions = data.docs.map((doc) => ({ ...doc.data() }));
-      dispatch({ type: TRANSACTION_SUCCESS, payload: transactions });
+      dispatch({ type: TRANSACTIONS_SUCCESS, payload: transactions });
     });
   } catch (error) {
     dispatch({ type: TRANSACTIONS_ERROR, payload: error });
@@ -24,7 +24,7 @@ export const addTransactions = (values) => (dispatch) => {
     db.collection('transactions')
       .add({ ...values })
       .onSnapshot((data) => {
-        dispatch({ type: TRANSACTION_SUCCESS, payload: values });
+        dispatch({ type: TRANSACTIONS_SUCCESS, payload: values });
       });
   } catch (error) {
     dispatch({ type: TRANSACTIONS_ERROR, payload: error });

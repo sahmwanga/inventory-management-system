@@ -4,7 +4,7 @@ import {
   PRODUCTS_ERROR,
 } from '../../constants/actionTypes';
 
-const products = (state, { payload, type }) => {
+const productReducer = (state, { payload, type }) => {
   switch (type) {
     case PRODUCTS_LOADING:
       return { ...state, products: { ...state.products, loading: true } };
@@ -23,4 +23,4 @@ const products = (state, { payload, type }) => {
   }
 };
 
-export default products;
+export default productReducer;

@@ -1,5 +1,5 @@
 import {
-  TRANSACTION_SUCCESS,
+  TRANSACTIONS_SUCCESS,
   TRANSACTIONS_LOADING,
   TRANSACTIONS_ERROR,
 } from '../../constants/actionTypes';
@@ -11,7 +11,7 @@ const transactions = (state, { payload, type }) => {
         ...state,
         transactions: { ...state.transactions, loading: true },
       };
-    case TRANSACTION_SUCCESS:
+    case TRANSACTIONS_SUCCESS:
       return {
         ...state,
         transactions: { ...state.transactions, loading: false, data: payload },

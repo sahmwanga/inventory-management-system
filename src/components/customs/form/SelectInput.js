@@ -1,4 +1,5 @@
 import React from 'react';
+import _ from 'lodash';
 
 import {
   Button,
@@ -34,6 +35,7 @@ function SelectInput(props) {
   return (
     <FormControl className={classes.formControl}>
       <InputLabel id="type">{label}</InputLabel>
+
       <Select
         labelId={name}
         id={name}
@@ -43,9 +45,10 @@ function SelectInput(props) {
         helperText={touched[name] && errors[name]}
         {...rest}
       >
-        {options.map(({ key, value }) => (
-          <MenuItem value={value}>{key}</MenuItem>
-        ))}
+        {_.isArray(options) &&
+          options.map(({ key, value }) => (
+            <MenuItem value={value}>{key}</MenuItem>
+          ))}
       </Select>
     </FormControl>
   );

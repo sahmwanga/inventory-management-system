@@ -16,18 +16,21 @@ import {
   Box,
 } from '@material-ui/core';
 import { useContext, useEffect, useState } from 'react';
-import { GlobalContext, transactionDispatch } from '../../context/GlobalState';
+import { GlobalContext } from '../../context/GlobalState';
 import TransactionForm from './TransactionForm';
 
 import { getTransactions } from '../../context/actions/transactions';
 
 const Transactions = () => {
-  const { transactions, filterTransactions, transactionState } = useContext(
-    GlobalContext
-  );
+  const {
+    transactions,
+    filterTransactions,
+    transactionState: { loading, data, error },
+    transactionDispatch,
+  } = useContext(GlobalContext);
   const [reload, setReload] = useState(false);
 
-  console.log({ transactionState });
+  console.log({ transactionState: data });
 
   useEffect(() => {
     getTransactions()(transactionDispatch);
@@ -61,8 +64,8 @@ const Transactions = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {transactions &&
-                transactions.map((txn) => (
+              {data &&
+                data.map((txn) => (
                   <TableRow key={txn.id}>
                     <TableCell>{txn.productName}</TableCell>
                     <TableCell>{txn.type}</TableCell>

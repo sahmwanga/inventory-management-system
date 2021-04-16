@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Button, Grid, TextField } from '@material-ui/core';
 import {
   KeyboardDatePicker,
@@ -9,6 +9,8 @@ import * as Yup from 'yup';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import { GlobalContext } from '../../context/GlobalState';
 import FormikControl from '../customs/form/FormikControl';
+import _ from 'lodash';
+import { getProducts } from '../../context/actions/products';
 
 const useStyles = makeStyles((theme) =>
   createStyles({
@@ -59,11 +61,26 @@ const MyField = (props) => {
 };
 
 const TransactionForm = () => {
-  const { stocks, addTransaction } = useContext(GlobalContext);
-  const stockOptions = stocks.map((item) => ({
-    key: item.productName,
-    value: item.id,
-  }));
+  const {
+    productState: {
+      products: { data },
+      loading,
+      error,
+    },
+    addTransaction,
+    productDispatch,
+  } = useContext(GlobalContext);
+
+  useEffect(() => {
+    getProducts()(productDispatch);
+  }, []);
+
+  const stockOptions = _.isArray(data)
+    ? data.map((item) => ({
+        key: item.productName,
+        value: item.id,
+      }))
+    : [];
   const transactionTypes = [
     { key: 'sales', values: 'sales' },
     { key: 'purchases', value: 'purchases' },
