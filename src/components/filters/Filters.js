@@ -4,6 +4,7 @@ import { Card, Typography, Grid, Button, CardContent } from '@material-ui/core';
 import FormikControl from '../customs/form/FormikControl';
 
 function Filters() {
+  console.log('filter');
   return (
     <Card>
       <CardContent>

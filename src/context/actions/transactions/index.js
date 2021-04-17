@@ -6,11 +6,19 @@ import {
 
 import { db } from '../../../firebase/Firebase';
 
-export const getTransactions = () => async (dispatch) => {
+export const getTransactions = (filter) => async (dispatch) => {
+  console.log('filter transactions', filter);
   dispatch({ type: TRANSACTIONS_LOADING });
   try {
     db.collection('transactions').onSnapshot((data) => {
-      const transactions = data.docs.map((doc) => ({ ...doc.data() }));
+      const transactions = data.docs
+        .map((doc) => ({ ...doc.data() }))
+        .filter((value) => {
+          if (filter !== 'all') {
+            return value.type === filter;
+          }
+          return value;
+        });
       dispatch({ type: TRANSACTIONS_SUCCESS, payload: transactions });
     });
   } catch (error) {
@@ -20,7 +28,6 @@ export const getTransactions = () => async (dispatch) => {
 
 export const addTransactions = (values) => (dispatch) => {
   dispatch({ type: TRANSACTIONS_LOADING });
-  console.log('add-transasctions', values);
   try {
     db.collection('transactions')
       .add({ ...values })

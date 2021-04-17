@@ -58,12 +58,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const ProductMaster = () => {
+  console.log('productMaster');
   const classes = useStyles();
   const {
-    addProduct,
-    stocks,
     productDispatch,
-    // getProducts,
     productState: {
       products: { loading, error, data },
     },
@@ -72,8 +70,6 @@ const ProductMaster = () => {
   useEffect(() => {
     getProducts()(productDispatch);
   }, []);
-
-  console.log({ loading, data, error });
 
   const [open, setOpen] = React.useState(false);
 
@@ -98,7 +94,6 @@ const ProductMaster = () => {
   };
 
   const onSubmit = (values) => {
-    // addProduct(values);
     addProducts(values)(productDispatch);
   };
 

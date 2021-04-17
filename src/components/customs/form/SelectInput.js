@@ -28,8 +28,6 @@ const useStyles = makeStyles((theme) =>
 function SelectInput(props) {
   const { label, name, touched, errors, onChange, options, ...rest } = props;
 
-  console.log({ options });
-
   const classes = useStyles();
 
   return (

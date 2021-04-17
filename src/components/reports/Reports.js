@@ -7,10 +7,8 @@ const Reports = () => {
 
   useEffect(() => {
     const reportsData = getReports();
-    console.log({ reportsData });
   }, []);
 
-  console.log('reports');
   return (
     <div>
       <h3>Reports</h3>

@@ -1,20 +1,11 @@
 import React, { useContext, useEffect } from 'react';
 import { Button, Grid, TextField } from '@material-ui/core';
-import {
-  KeyboardDatePicker,
-  MuiPickersUtilsProvider,
-} from '@material-ui/pickers';
+
 import { Formik, Form, useFormikContext, useField, Field } from 'formik';
 import * as Yup from 'yup';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
-import { GlobalContext } from '../../context/GlobalState';
 import FormikControl from '../customs/form/FormikControl';
 import _ from 'lodash';
-import { getProducts } from '../../context/actions/products';
-import {
-  addTransactions,
-  getTransactions,
-} from '../../context/actions/transactions';
 
 const useStyles = makeStyles((theme) =>
   createStyles({
@@ -65,21 +56,15 @@ const MyField = (props) => {
   );
 };
 
-const TransactionForm = () => {
-  const {
-    productState: {
-      products: { data },
-      loading,
-      error,
-    },
-    productDispatch,
-    transactionDispatch,
-  } = useContext(GlobalContext);
-
-  useEffect(() => {
-    getProducts()(productDispatch);
-    getTransactions()(transactionDispatch);
-  }, []);
+const TransactionForm = ({
+  productState: {
+    products: { data, loading, error },
+  },
+  transactionDispatch,
+  transactionTypes,
+  addTransactions,
+}) => {
+  console.log('transactionForm');
 
   const stockOptions = _.isArray(data)
     ? data.map((item) => ({
@@ -87,12 +72,6 @@ const TransactionForm = () => {
         value: item.productName,
       }))
     : [];
-  const transactionTypes = [
-    { key: 'sales', values: 'sales' },
-    { key: 'purchases', value: 'purchases' },
-  ];
-
-  const classes = useStyles();
 
   const validationSchema = Yup.object({
     rate: Yup.string().required('rate is required'),
@@ -111,7 +90,6 @@ const TransactionForm = () => {
   };
 
   const onSubmit = (values) => {
-    console.log({ values });
     addTransactions(values)(transactionDispatch);
   };
 
@@ -126,6 +104,7 @@ const TransactionForm = () => {
         <Form className="">
           <Grid container spacing="2">
             <Grid item xs={12} sm={6} md={4}>
+              {loading ? 'loading...' : ''}
               <FormikControl
                 control="select"
                 fullWidth

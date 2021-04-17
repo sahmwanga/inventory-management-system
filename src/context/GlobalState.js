@@ -183,49 +183,6 @@ export const GlobalProvider = ({ children }) => {
     transactions
   );
 
-  // const editProduct = (id) => {
-  //   dispatch({ type: EDIT_PRODUCT, id });
-  // };
-
-  // const getReports = () => {
-  //   console.log('get reports');
-  //   dispatch({ type: GET_REPORTS });
-  // };
-
-  // const getTransactions = (filter) => {
-  //   dispatch({ type: GET_TRANSACTIONS, payload: filter });
-  // };
-
-  // const addProduct = (payload) => {
-  //   console.log('add products');
-  //   dispatch({
-  //     type: ADD_PRODUCT,
-  //     payload: {
-  //       id: Math.floor(Math.random() * 100),
-  //       ...payload,
-  //       availStock: 0,
-  //     },
-  //   });
-  //   dispatch({ type: GET_REPORTS });
-  // };
-
-  // const addTransaction = (values) => {
-  //   console.log('add transaction');
-  //   dispatch({
-  //     type: ADD_TRANSACTION,
-  //     payload: values,
-  //   });
-  //   dispatch({
-  //     type: UPDATE_STOCKS,
-  //     payload: values,
-  //   });
-  //   dispatch({ type: GET_REPORTS });
-  // };
-
-  // const filterTransactions = (value) => {
-  //   dispatch({ type: GET_TRANSACTIONS, payload: value });
-  // };
-
   return (
     <GlobalContext.Provider
       value={{
