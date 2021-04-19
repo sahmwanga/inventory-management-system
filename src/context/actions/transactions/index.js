@@ -8,8 +8,8 @@ import { db } from '../../../firebase/Firebase';
 
 export const getTransactions = (filter) => async (dispatch) => {
   console.log('filter transactions', filter);
-  dispatch({ type: TRANSACTIONS_LOADING });
   try {
+    dispatch({ type: TRANSACTIONS_LOADING });
     db.collection('transactions').onSnapshot((data) => {
       const transactions = data.docs
         .map((doc) => ({ ...doc.data() }))

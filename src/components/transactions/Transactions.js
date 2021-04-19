@@ -18,6 +18,8 @@ import {
   addTransactions,
 } from '../../context/actions/transactions';
 import TransactionFilter from './TransactionFilter';
+import { ProductContext } from '../../context/ProductState';
+import { getProducts } from '../../context/actions/products';
 
 const transactionTypes = [
   { key: 'sales', values: 'sales' },
@@ -30,8 +32,6 @@ const Transactions = () => {
       transactions: { data: txnData },
     },
     transactionDispatch,
-    productDispatch,
-    productState,
   } = useContext(GlobalContext);
 
   const [filterValue, setFilterValue] = useState('all');
@@ -40,8 +40,6 @@ const Transactions = () => {
     getTransactions(filterValue)(transactionDispatch);
   }, [filterValue]);
 
-  console.log({ filterValue });
-
   return (
     <Card>
       <CardContent>
@@ -49,8 +47,6 @@ const Transactions = () => {
         <Card>
           <CardContent>
             <TransactionForm
-              productState={productState}
-              productDispatch={productDispatch}
               transactionDispatch={transactionDispatch}
               transactionTypes={transactionTypes}
               addTransactions={addTransactions}

@@ -1,19 +1,9 @@
 import React, { useContext, useEffect } from 'react';
 import {
   Button,
-  Grid,
-  TextField,
   Dialog,
   DialogTitle,
   DialogContent,
-  Card,
-  TableContainer,
-  Paper,
-  Table,
-  TableHead,
-  TableRow,
-  TableCell,
-  TableBody,
   Box,
   CircularProgress,
 } from '@material-ui/core';
@@ -22,8 +12,15 @@ import { green } from '@material-ui/core/colors';
 import { makeStyles } from '@material-ui/core/styles';
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
-import { GlobalContext } from '../../context/GlobalState';
+import { ProductContext } from '../../context/ProductState';
 import { addProducts, getProducts } from '../../context/actions/products';
+import withProduct from './withProduct';
+import Spinner from '../customs/Spinner';
+
+import DeleteIcon from '@material-ui/icons/Delete';
+import CreateIcon from '@material-ui/icons/Create';
+import ProductForm from './ProductForm';
+import ProductList from './ProductList';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -57,20 +54,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ProductMaster = () => {
-  console.log('productMaster');
-  const classes = useStyles();
-  const {
-    productDispatch,
-    productState: {
-      products: { loading, error, data },
-    },
-  } = useContext(GlobalContext);
-
-  useEffect(() => {
-    getProducts()(productDispatch);
-  }, []);
-
+const ProductMaster = (props) => {
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
@@ -81,25 +65,18 @@ const ProductMaster = () => {
     setOpen(false);
   };
 
-  const validationSchema = Yup.object({
-    salesPrice: Yup.string().required('rate is required'),
-    purchasePrice: Yup.string().required('purchase Price is required'),
-    productName: Yup.string().required('product name is required'),
-  });
-
-  const initialValues = {
-    salesPrice: '',
-    purchasePrice: '',
-    productName: '',
-  };
-
-  const onSubmit = (values) => {
-    addProducts(values)(productDispatch);
-  };
-
-  const buttonClassname = clsx({
-    [classes.buttonSuccess]: loading,
-  });
+  const actions = [
+    {
+      icon: <CreateIcon color="primary" />,
+      tooltip: 'Save User',
+      onClick: (value) => alert('You saved ' + value.productName),
+    },
+    {
+      icon: <DeleteIcon style={{ color: 'red' }} />,
+      tooltip: 'Delete User',
+      onClick: (event) => alert('You saved ' + event),
+    },
+  ];
 
   return (
     <>
@@ -110,104 +87,15 @@ const ProductMaster = () => {
       <Dialog
         open={open}
         onClose={handleClose}
+        maxWidth="lg"
+        fullWidth={true}
         aria-labelledby="form-dialog-title"
       >
         <DialogTitle id="form-dialog-title">Product Master</DialogTitle>
         <DialogContent>
-          <Formik
-            initialValues={initialValues}
-            validationSchema={validationSchema}
-            onSubmit={onSubmit}
-            enableReinitialize={true}
-          >
-            {({ touched, errors, handleChange, isSubmitting, values }) => (
-              <Form className="">
-                <Grid container spacing="2">
-                  <Grid item xs={12} sm={6} md={4}>
-                    <TextField
-                      fullWidth
-                      id="productName"
-                      name="productName"
-                      label="productName"
-                      onChange={handleChange}
-                      error={touched.productName && Boolean(errors.productName)}
-                      helperText={touched.productName && errors.productName}
-                    />
-                  </Grid>
-                  <Grid item xs={12} sm={6} md={4}>
-                    <TextField
-                      fullWidth
-                      id="salesPrice"
-                      name="salesPrice"
-                      label="salesPrice"
-                      onChange={handleChange}
-                      error={touched.salesPrice && Boolean(errors.salesPrice)}
-                      helperText={touched.salesPrice && errors.salesPrice}
-                    />
-                  </Grid>
-                  <Grid item xs={12} sm={6} md={4}>
-                    <TextField
-                      fullWidth
-                      id="purchasePrice"
-                      name="purchasePrice"
-                      label="purchasePrice"
-                      onChange={handleChange}
-                      error={
-                        touched.purchasePrice && Boolean(errors.purchasePrice)
-                      }
-                      helperText={touched.purchasePrice && errors.purchasePrice}
-                    />
-                  </Grid>
-                  <Grid item xs={12} sm={12} md={12}>
-                    <Button
-                      color="primary"
-                      variant="contained"
-                      fullWidth
-                      type="submit"
-                      className={buttonClassname}
-                      disabled={loading}
-                    >
-                      Submit
-                    </Button>
-                    {loading && (
-                      <CircularProgress
-                        size={24}
-                        className={classes.buttonProgress}
-                      />
-                    )}
-                  </Grid>
-                </Grid>
-              </Form>
-            )}
-          </Formik>
+          <ProductForm />
           <Box my={2}>
-            <TableContainer component={Paper}>
-              <Table className="" size="small" aria-label="simple table">
-                <TableHead>
-                  <TableRow>
-                    <TableCell>ID</TableCell>
-                    <TableCell align="right">Product Name</TableCell>
-                    <TableCell align="right">Sales Price</TableCell>
-                    <TableCell align="right">Purchase Price</TableCell>
-                    <TableCell align="right">Available Stock</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {data &&
-                    data.map((row) => (
-                      <TableRow key={row.name}>
-                        <TableCell component="th" scope="row">
-                          {row.id}
-                        </TableCell>
-                        <TableCell align="right">{row.productName}</TableCell>
-                        <TableCell align="right">{row.salesPrice}</TableCell>
-                        <TableCell align="right">{row.purchasePrice}</TableCell>
-                        <TableCell align="right">{row.availStock}</TableCell>
-                      </TableRow>
-                    ))}
-                </TableBody>
-              </Table>
-            </TableContainer>
+            <ProductList />
           </Box>
         </DialogContent>
       </Dialog>
@@ -215,4 +103,4 @@ const ProductMaster = () => {
   );
 };
 
-export default ProductMaster;
+export default withProduct(ProductMaster);

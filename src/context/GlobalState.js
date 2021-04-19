@@ -186,17 +186,6 @@ export const GlobalProvider = ({ children }) => {
   return (
     <GlobalContext.Provider
       value={{
-        // transactions: state.transactions,
-        // getTransactions: getTransactions,
-        // addTransaction: addTransaction,
-        // filterTransactions: filterTransactions,
-        // stocks: state.stocks,
-        // reports: state.reports,
-        // editProduct: editProduct,
-        // getReports: getReports,
-        // addProduct: addProduct,
-        productState,
-        productDispatch,
         transactionState,
         transactionDispatch,
       }}

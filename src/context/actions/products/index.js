@@ -7,8 +7,8 @@ import {
 import { db } from '../../../firebase/Firebase';
 
 export const getProducts = () => async (dispatch) => {
-  dispatch({ type: PRODUCTS_LOADING });
   try {
+    dispatch({ type: PRODUCTS_LOADING });
     // let products = [];
     db.collection('products').onSnapshot((data) => {
       const products = data.docs.map((doc) => ({ ...doc.data() }));

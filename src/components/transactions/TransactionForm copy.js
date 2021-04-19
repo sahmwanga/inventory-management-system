@@ -6,8 +6,6 @@ import * as Yup from 'yup';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import FormikControl from '../customs/form/FormikControl';
 import _ from 'lodash';
-import { ProductContext } from '../../context/ProductState';
-import withProduct from '../products/withProduct';
 
 const useStyles = makeStyles((theme) =>
   createStyles({
@@ -58,21 +56,15 @@ const MyField = (props) => {
   );
 };
 
-const TransactionForm = (props) => {
-  const {
-    transactionDispatch,
-    transactionTypes,
-    addTransactions,
-    context: {
-      productState: { loading, data, error },
-      getAllProducts,
-    },
-  } = props;
+const TransactionForm = ({
+  productState: {
+    products: { data, loading, error },
+  },
+  transactionDispatch,
+  transactionTypes,
+  addTransactions,
+}) => {
   console.log('transactionForm');
-
-  useEffect(() => {
-    getAllProducts();
-  }, []);
 
   const stockOptions = _.isArray(data)
     ? data.map((item) => ({
@@ -112,6 +104,7 @@ const TransactionForm = (props) => {
         <Form className="">
           <Grid container spacing="2">
             <Grid item xs={12} sm={6} md={4}>
+              {loading ? 'loading...' : ''}
               <FormikControl
                 control="select"
                 fullWidth
@@ -175,4 +168,4 @@ const TransactionForm = (props) => {
   );
 };
 
-export default withProduct(TransactionForm);
+export default TransactionForm;
